@@ -11,10 +11,28 @@ int main(int argc,char** argv){
         cout<<"Try ./<executable name> <cities filename>"<<endl;
         return -1;
     }
-    cout<<"Travelling Salesman Problem"<<endl;
+    cout<<"!***************   Travelling Salesman Problem   ***************!"<<endl;
+
     vector<City*> cities = readCitiesFromFile(argv[1]);
-    for(vector<City*>::iterator it = cities.begin(); it != cities.end();++it){
-        cout<<(*it)->getName()<<" "<<(*it)->getLat()<<" "<<(*it)->getLon()<<endl;
+    /**************************************** PREPROCESSING ****************************************/
+
+    //Calculate distance between cities
+    float** distTable = getDistTable(cities);
+
+    //TODO: This is only a test, this going to be deleted
+    for(int i=0;i<cities.size();i++){
+        for(int j=0;j<cities.size();j++){
+            cout<<distTable[i][j]<<"\t\t";
+        }
+        cout<<endl;
     }
+
+
+    //Free memory used for store distances between cities
+    for(int i=0;i<cities.size();i++){
+        delete(distTable[i]);
+    }
+    delete(distTable);
+
     return 0;
 }

@@ -11,5 +11,7 @@ using namespace std;
 #include "city.h"
 
 vector<City*> readCitiesFromFile(char* filename);
+float calculateDist(City* cityA,City* cityB);
+float** getDistTable(vector<City*> cities);
 
 #endif // CITYUTILS_H
