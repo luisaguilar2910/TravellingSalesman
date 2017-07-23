@@ -17,6 +17,19 @@ int Individual::getSize(){
     return this->size;
 }
 
+float Individual::getFitness(){
+    return this->fitness;
+}
+
+
+void Individual::setFitness(float _fitness){
+    this->fitness = _fitness;
+}
+
+void Individual::setChromosome(int* chromosome){
+    this->chromosomes = chromosome;
+}
+
 /**
     This function create a new random Individual, used to initialize the population.
 
@@ -39,4 +52,20 @@ Individual* Individual::getRandIndividual(int _size){
     }
 
     return individual;
+}
+
+/**
+    This function return a copy of a Individual object
+
+    @param originIndividual The original object to do a copy
+    @return copy The copy of the original object
+ */
+
+Individual* Individual::getCopy(Individual* originIndividual){
+    Individual* copy = new Individual(originIndividual->getSize());
+    for(int i=0;i<originIndividual->getSize();i++){
+        copy->getChromosomes()[i] = originIndividual->getChromosomes()[i];
+    }
+    copy->setFitness(originIndividual->getFitness());
+    return copy;
 }
