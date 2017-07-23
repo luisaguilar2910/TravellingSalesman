@@ -16,9 +16,9 @@ cd build
 cmake ..
 make
 ```
-## Run It
+## Run
 Go inside the dir _TravellingSalesman/bin_ and execute:  
-```./TravellingSalesman  <cities_file.txt>```
+```./TravellingSalesman  <cities_file.txt>  <population_size>```
 
 ## Tests
 

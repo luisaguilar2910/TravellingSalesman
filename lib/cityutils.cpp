@@ -57,6 +57,12 @@ float calculateDist(City* cityA,City* cityB){
     return R * c;
 }
 
+/**
+    Take the vector of cities and calcule all distance between their, and storage the result inside a table
+
+    @param cities All the cities to operate
+    @return distTable Have all the distances between cities, ready to use
+ */
 float** getDistTable(vector<City*> cities){
     float** distTable = new float*[cities.size()];
     for(int i=0;i<cities.size();i++){
