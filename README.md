@@ -2,7 +2,7 @@
 ### Using an Evolutionary Algorithm (EA)
 
 ## Synopsis
-This project have as purpose study the basic concepts of an Evolutionary Algorithm at the moment to try to solve the Travelling Salesman Problem.
+This project have as purpose study the basic concepts of an Evolutionary Algorithm and use them to solve the Travelling Salesman Problem.
 
 ## Software Requirements
 * [CMake](https://cmake.org/) (minimum version required 2.8)
