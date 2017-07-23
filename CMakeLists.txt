@@ -14,3 +14,4 @@ add_subdirectory(lib)
 
 add_executable(${PROJECT_NAME} main.cpp ${SOURCES})
 target_link_libraries(${PROJECT_NAME} CityLib)
+target_link_libraries(${PROJECT_NAME} CityUtilsLib)
