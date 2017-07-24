@@ -12,20 +12,22 @@ using namespace std;
 #include "individual.h"
 
 int main(int argc,char** argv){
-    if(argc < 3){
+    if(argc < 4){
         cout<<"Bad arguments"<<endl;
-        cout<<"Try ./<executable name> <cities_filename> <population_size>"<<endl;
+        cout<<"Try ./<executable name> <cities_filename> <population_size> <mutation_prob>"<<endl;
         return -1;
     }
     srand(time(0));
 
     cout<<"/********************************************* Travelling Salesman Problem *********************************************/"<<endl<<endl;
 
-    int population_size = atoi(argv[2]);
     vector<City*> cities = readCitiesFromFile(argv[1]);
+    int population_size = atoi(argv[2]);
+    float mutationProb = atof(argv[3]);
 
     cout<<"Population Size\t=\t"<<population_size<<endl;
     cout<<"Number of cities\t=\t"<<cities.size()<<endl;
+    cout<<"Mutation Probability\t=\t"<<mutationProb<<endl;
     cout<<endl;
 
     /**************************************** PREPROCESSING ****************************************/
@@ -83,33 +85,46 @@ int main(int argc,char** argv){
 
     GaussianRandomGenerator* random = new GaussianRandomGenerator(0,1);
 
-    //TODO: Replace this code for a Binary Search
-    float n = random->getRandomFloat(fitnessRoulette[population.size()-1],0);
-    int p1 = 0;
-    for(int i=1;i<population.size();i++){
-        if(fitnessRoulette[i-1] < n && n < fitnessRoulette[i]){
-            p1 = i;
-            break;
-        }
-    }
-    int p2 = 0;
-    do{
+    vector<Individual*> children;
+
+    for(int i=0;i<(population_size/2);i++){
+        //TODO: Replace this code for a Binary Search
         float n = random->getRandomFloat(fitnessRoulette[population.size()-1],0);
+        int p1 = 0;
         for(int i=1;i<population.size();i++){
             if(fitnessRoulette[i-1] < n && n < fitnessRoulette[i]){
-                p2 = i;
+                p1 = i;
                 break;
             }
         }
-    }while (p2 == p1);
+        int p2 = 0;
+        do{
+            float n = random->getRandomFloat(fitnessRoulette[population.size()-1],0);
+            for(int i=1;i<population.size();i++){
+                if(fitnessRoulette[i-1] < n && n < fitnessRoulette[i]){
+                    p2 = i;
+                    break;
+                }
+            }
+        }while (p2 == p1);
 
-    cout<<"Select to be parent "<<population[p1]->getFitness()<<endl;
-    cout<<"Select to be parent "<<population[p2]->getFitness()<<endl;
+        Individual* child1 = Individual::crossover(population[p1],population[p2]);
+        Individual* child2 = Individual::crossover(population[p2],population[p1]);
 
-    Individual* child1 = Individual::crossover(population[p1],population[p2]);
-    Individual* child2 = Individual::crossover(population[p2],population[p1]);
+        child1->mutate(mutationProb);
+        child2->mutate(mutationProb);
 
+        children.push_back(child1);
+        children.push_back(child2);
+    }
 
+    cout<<"/**************************************** NEW GENERATION ****************************************/"<<endl;
+    for(vector<Individual*>::iterator it = children.begin();it != children.end();++it){
+        for(int i=0;i<(*it)->getSize();i++){
+            cout<<(*it)->getChromosomes()[i]<<" ";
+        }
+        cout<<endl;
+    }
 
 
     cout<<"/-------------------------------------------------- END --------------------------------------------------/"<<endl<<endl;

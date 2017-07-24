@@ -29,6 +29,7 @@ public:
     float getFitness();
     void setFitness(float _fitness);
     void setChromosome(int* chromosome);
+    void mutate(float mutateProb);
 };
 
 #endif // INDIVIDUAL_H

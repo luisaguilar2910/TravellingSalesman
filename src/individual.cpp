@@ -112,3 +112,24 @@ Individual* Individual::crossover(Individual* parentA,Individual* parentB){
     }
     return child;
 }
+
+
+void Individual::mutate(float mutateProb){
+
+    GaussianRandomGenerator* random = new GaussianRandomGenerator(0,1);
+
+    float mut = random->getRandomFloat(0,1);
+
+    if(mut<mutateProb){
+        return;
+    }
+
+    int a = random->getRandomInt(0,this->size);
+    int b = 0;
+    do{
+        b = random->getRandomInt(0,this->size);
+    }while(b == a);
+    int aux = this->getChromosomes()[a];
+    this->chromosomes[a] = this->chromosomes[b];
+    this->chromosomes[b] = aux;
+}
