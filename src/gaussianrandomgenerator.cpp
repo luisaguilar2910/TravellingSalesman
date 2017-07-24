@@ -7,6 +7,8 @@ GaussianRandomGenerator::GaussianRandomGenerator(float _mean,float _variance){
 
 int GaussianRandomGenerator::getRandomInt(int from, int to){
     float n = box_miller_marsaglia();
+    float middle = (to - from)/2;
+    return (int)((from + middle) + (n * (middle / 2)));
 }
 
 float GaussianRandomGenerator::getRandomFloat(float from, float to){

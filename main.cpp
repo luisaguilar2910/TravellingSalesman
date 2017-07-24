@@ -82,8 +82,9 @@ int main(int argc,char** argv){
     cout<<"Total\t\t"<<total<<endl<<endl;
 
     GaussianRandomGenerator* random = new GaussianRandomGenerator(0,1);
-    float n = random->getRandomFloat(fitnessRoulette[population.size()-1],0);
+
     //TODO: Replace this code for a Binary Search
+    float n = random->getRandomFloat(fitnessRoulette[population.size()-1],0);
     int p1 = 0;
     for(int i=1;i<population.size();i++){
         if(fitnessRoulette[i-1] < n && n < fitnessRoulette[i]){
@@ -103,7 +104,13 @@ int main(int argc,char** argv){
     }while (p2 == p1);
 
     cout<<"Select to be parent "<<population[p1]->getFitness()<<endl;
-    cout<<"Select to be parent "<<population[p2]->getFitness()<<endl<<endl;
+    cout<<"Select to be parent "<<population[p2]->getFitness()<<endl;
+
+    Individual* child1 = Individual::crossover(population[p1],population[p2]);
+    Individual* child2 = Individual::crossover(population[p2],population[p1]);
+
+
+
 
     cout<<"/-------------------------------------------------- END --------------------------------------------------/"<<endl<<endl;
 

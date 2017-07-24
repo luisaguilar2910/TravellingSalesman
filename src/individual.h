@@ -6,8 +6,11 @@
 #include <time.h>
 #include <vector>
 #include <numeric>
+#include <algorithm>
 
 using namespace std;
+
+#include "gaussianrandomgenerator.h"
 
 class Individual{
 private:
@@ -19,6 +22,7 @@ public:
     ~Individual();
     static Individual* getRandIndividual(int _size);
     static Individual* getCopy(Individual* originIndividual);
+    static Individual* crossover(Individual* parentA,Individual* parentB);
 
     int* getChromosomes();
     int getSize();

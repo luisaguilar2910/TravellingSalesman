@@ -69,3 +69,46 @@ Individual* Individual::getCopy(Individual* originIndividual){
     copy->setFitness(originIndividual->getFitness());
     return copy;
 }
+
+/**
+     This function take two parents and generate a child using a Two-Point Crossover technique
+
+     @param parentA
+     @param parentB
+     @return child generate from the two parents
+ */
+Individual* Individual::crossover(Individual* parentA,Individual* parentB){
+    Individual* child = new Individual(parentA->getSize());
+
+    for(int i=0;i<parentA->getSize();i++){
+        child->getChromosomes()[i] = -1;
+    }
+
+    GaussianRandomGenerator* random = new GaussianRandomGenerator(0,1);
+    int from = random->getRandomInt(0,parentA->getSize());
+    int to = random->getRandomInt(0,parentA->getSize());
+    if(from > to){
+        int aux = from;
+        from = to;
+        to = aux;
+    }
+    vector<int> setElements;
+    for(int i=from;i<to;i++){
+        child->getChromosomes()[i] = parentA->getChromosomes()[i];
+        setElements.push_back(parentA->getChromosomes()[i]);
+    }
+
+    int j=0;
+    for(int i=0;i<parentB->getSize();i++){
+        vector<int>::iterator it = find(setElements.begin(),setElements.end(),parentB->getChromosomes()[i]);
+        if(it!=setElements.end()){
+            continue;
+        }else{
+            while(child->getChromosomes()[j]!=-1)
+                j++;
+            if(j<child->getSize())
+                child->getChromosomes()[j] = parentB->getChromosomes()[i];
+        }
+    }
+    return child;
+}
