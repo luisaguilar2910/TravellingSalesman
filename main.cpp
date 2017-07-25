@@ -48,7 +48,7 @@ int main(int argc,char** argv){
     }
 
     for(int g=0;g<genNumber;g++){
-        cout<<"/************************************************** Population **************************************************/"<<endl;
+        cout<<"/************************************************** Population "<<g<<" **************************************************/"<<endl;
 
         for(vector<Individual*>::iterator it = population.begin();it != population.end();++it){
             for(int i=0;i<(*it)->getSize();i++){
@@ -126,9 +126,9 @@ int main(int argc,char** argv){
            }while (p2 == p1);
 
            Individual* child1 = Individual::crossover(population[p1],population[p2]);
-           Individual* child2 = Individual::crossover(population[p2],population[p1]);
-
            child1->mutate(mutationProb);
+
+           Individual* child2 = Individual::crossover(population[p2],population[p1]);
            child2->mutate(mutationProb);
 
            children.push_back(child1);
