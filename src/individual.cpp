@@ -78,6 +78,7 @@ Individual* Individual::getCopy(Individual* originIndividual){
      @return child generate from the two parents
  */
 Individual* Individual::crossover(Individual* parentA,Individual* parentB){
+
     Individual* child = new Individual(parentA->getSize());
 
     for(int i=0;i<parentA->getSize();i++){
@@ -92,23 +93,35 @@ Individual* Individual::crossover(Individual* parentA,Individual* parentB){
         from = to;
         to = aux;
     }
+
     vector<int> setElements;
     for(int i=from;i<to;i++){
         child->getChromosomes()[i] = parentA->getChromosomes()[i];
         setElements.push_back(parentA->getChromosomes()[i]);
     }
 
-    int j=0;
+
     for(int i=0;i<parentB->getSize();i++){
-        vector<int>::iterator it = find(setElements.begin(),setElements.end(),parentB->getChromosomes()[i]);
-        if(it!=setElements.end()){
-            continue;
-        }else{
-            while(child->getChromosomes()[j]!=-1)
-                j++;
-            if(j<child->getSize())
-                child->getChromosomes()[j] = parentB->getChromosomes()[i];
+        int* it = find(child->getChromosomes(),child->getChromosomes()+child->getSize(),parentB->getChromosomes()[i]);
+        if(it==child->getChromosomes()+child->getSize()){
+          int j=0;
+              while(j<parentB->getSize()){
+                if(child->getChromosomes()[j] == -1){
+                    child->getChromosomes()[j] = parentB->getChromosomes()[i];
+                    setElements.push_back(parentB->getChromosomes()[i]);
+                    j++;
+                    break;
+                }else{
+                  j++;
+                }
+              }
         }
+    }
+
+    int* p = find(child->getChromosomes(),child->getChromosomes()+child->getSize(),-1);
+    string f = (p!=child->getChromosomes()+child->getSize())?"With -1":"nop";
+    if(p!=child->getChromosomes()+child->getSize()){
+      exit(-1);
     }
     return child;
 }
@@ -124,12 +137,12 @@ void Individual::mutate(float mutateProb){
         return;
     }
 
-    int a = random->getRandomInt(0,this->size);
+    int a = random->getRandomInt(0,this->size-1);
     int b = 0;
     do{
-        b = random->getRandomInt(0,this->size);
+        b = random->getRandomInt(0,this->size-1);
     }while(b == a);
-    int aux = this->getChromosomes()[a];
+    int aux = this->chromosomes[a];
     this->chromosomes[a] = this->chromosomes[b];
     this->chromosomes[b] = aux;
 }
