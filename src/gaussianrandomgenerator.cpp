@@ -7,6 +7,11 @@ GaussianRandomGenerator::GaussianRandomGenerator(float _mean,float _variance){
 
 int GaussianRandomGenerator::getRandomInt(int from, int to){
   int res = from;
+  if(from > to){
+    int aux = from;
+    from = to;
+    to = aux;
+  }
   do{
     float n = box_miller_marsaglia();
     float range = (to - from);
@@ -16,9 +21,18 @@ int GaussianRandomGenerator::getRandomInt(int from, int to){
 }
 
 float GaussianRandomGenerator::getRandomFloat(float from, float to){
+  float res = from;
+  if(from > to){
+    float aux = from;
+    from = to;
+    to = aux;
+  }
+  do{
     float n = box_miller_marsaglia();
-    float middle = (to - from)/2;
-    return (from + middle) + (n * (middle / 2));
+    float range = (to - from);
+    res = ((((n + 1)*range)/2) + from);
+  }while(res < from || res > to);
+    return res;
 }
 
 
