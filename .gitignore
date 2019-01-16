@@ -2,3 +2,7 @@ build
 bin/*
 CMakeLists.txt.user
 *~
+*.cmake
+Makefile
+CMakeFiles
+CMakeCache.txt
